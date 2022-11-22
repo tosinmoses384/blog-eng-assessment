@@ -25,9 +25,7 @@ const PostDetails = () => {
 
   useEffect(() => {}, []);
 
-  const userAuth = {
-    _id: "3igi5grifm959jt",
-  };
+ 
 
   let fromStorage;
   let detailObj;
