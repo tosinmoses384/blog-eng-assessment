@@ -1,50 +1,27 @@
 import React, { useEffect } from "react";
 import Select from "react-select";
 
-// const options = [
-//   { value: "chocolate", label: "Chocolate" },
-//   { value: "strawberry", label: "Strawberry" },
-//   { value: "vanilla", label: "Vanilla" },
-// ];
-
 const CategoryDropDown = (props) => {
-  //dispatch action
-
   useEffect(() => {}, []);
 
-  //select categories
-  // const categoryList = [];
   const loading = false;
-  // const appErr = null;
-  // const serverErr = null;
-  // const appErr = 'this is app err';
-  // const serverErr = 'this is server error';
-  // const isCreated = true;
-  // const isCreated = false;
-
-  // const allCategories = categoryList?.map(category => {
-  //   return {
-  //     label: category?.title,
-  //     value: category?._id,
-  //   };
-  // });
 
   const allCategories = [
     {
-      label: "label 1",
-      value: "value 1",
+      label: "Health",
+      value: "Health",
     },
     {
-      label: "label 2",
-      value: "value 2",
+      label: "Housing",
+      value: "Housing",
     },
     {
-      label: "label 3",
-      value: "value 3",
+      label: "Technology",
+      value: "Technology",
     },
     {
-      label: "label 4",
-      value: "value 4",
+      label: "Business",
+      value: "Business",
     },
   ];
 

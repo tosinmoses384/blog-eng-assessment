@@ -1,9 +1,11 @@
+import React, { useState, useMemo } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Dropzone from "react-dropzone";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CategoryDropDown from "../Categories/CategoryDropDown";
+import { useLookupOverviewContext } from "../../context/LookupOverviewContext";
 
 //Form schema
 const formSchema = Yup.object({
@@ -29,15 +31,27 @@ border-color:'red'
 `;
 
 export default function CreatePost() {
-  //select store data
+  const [file, setFile] = useState(null);
+  const [fileDataURL, setFileDataURL] = useState(null);
+  // const [items, setItems] = useState([]);
+  const navigate = useNavigate();
+
+  const contextExtract = useLookupOverviewContext();
+  const propsExtract = useMemo(() => {
+    const { imgs, setImgs } = contextExtract;
+    return {
+      imgs,
+      setImgs,
+    };
+  }, [contextExtract]);
+  const { imgs, setImgs } = propsExtract;
+
+  
   const loading = false;
   const appErr = null;
   const serverErr = null;
-  // const appErr = 'this is app err';
-  // const serverErr = 'this is server error';
-  // const isCreated = true;
   const isCreated = false;
-  //formik
+ 
   const formik = useFormik({
     validationSchema: formSchema,
     initialValues: {
@@ -47,20 +61,62 @@ export default function CreatePost() {
       image: "",
     },
     onSubmit: (values) => {
-      //dispath the action
+      
 
-      const data = {
-        category: values?.category?.label,
-        title: values?.title,
-        description: values?.description,
-        image: values?.image,
-      };
-      console.log(data);
+      const imageMimeType = /image\/(png|jpg|jpeg)/i;
+      const file = values?.image;
+      if (!file.type.match(imageMimeType)) {
+        alert("Image mime type is not valid");
+        return;
+      }
+      let fileReader,
+        isCancel = false;
+
+      if (file) {
+        fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const { result } = e.target;
+          if (result && !isCancel) {
+            const initialItem = [
+              {
+                _id: 'xyz',
+                category: "category 2",
+                title: "Model House in Abuja",
+                description: "This is the description of the post",
+                image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+              }
+            ];
+
+            const data = initialItem.push({
+              _id: `${Date.now()}`,
+              category: values?.category?.label,
+              title: values?.title,
+              description: values?.description,
+             
+              image: [result],
+            });
+            const dataObj = { initialItem, ...data };
+
+            
+            
+            localStorage.setItem('posts', JSON.stringify(dataObj));
+          }
+        };
+        fileReader.readAsDataURL(file);
+      }
+
+
+
+      navigate("/posts");
     },
+
+
+
   });
 
-  //redirect
-  if (isCreated) return <Navigate to="/posts" />;
+  
+
+  
   return (
     <>
       <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

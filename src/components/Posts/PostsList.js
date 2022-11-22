@@ -1,105 +1,111 @@
-import { useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { ThumbUpIcon, ThumbDownIcon, EyeIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import DateFormatter from "../../utils/DateFormatter";
 import LoadingComponent from "../../utils/LoadingComponent";
+import { useLookupOverviewContext } from "../../context/LookupOverviewContext";
+
 
 export default function PostsList() {
-  //select post from store
-  // const post = useSelector(state => state?.post);
-  // const { postLists, loading, appErr, serverErr, likes, dislikes } = post;
-  const postLists = [
-    {
-      _id: '1',
-      category: "label 1",
-      title: "title 1",
-      description: "This is the description of the post",
-      image:'https://unsplash.com/photos/MYomVPpR5FU'
-  },
-    {
-      _id: '2',
-      category: "label 2",
-      title: "title 2",
-      description: "This is the description of the post",
-      image: {
-          "path": "Screenshot (3237).png"
-      }
-  },
-    {
-      _id: '3',
-      category: "label 3",
-      title: "title 3",
-      description: "This is the description of the post",
-      image: {
-          "path": "Screenshot (3237).png"
-      }
-  },
-    {
-      _id: '4',
-      category: "label 4",
-      title: "title 4",
-      description: "This is the description of the post",
-      image: {
-        "path": "Screenshot (3237).png"
-      }
-  },
-  {
-      _id: '5',
-      category: "label 5",
-      title: "title 5",
-      description: "This is the description of the post",
-      image: {
-          "path": "Screenshot (3237).png"
-      }
-  }
-  ]
-  // const loading = false;
+  
+  // const contextExtract = useLookupOverviewContext();
+  // const propsExtract = useMemo(() => {
+  //   const { imgs, setImgs, data, setData } = contextExtract;
+  //   return {
+  //     imgs,
+  //     setImgs,
+  //     data,
+  //     setData,
+  //   };
+  // }, [contextExtract]);
+  // const { imgs, setImgs, data, setData } = propsExtract;
+
+  // const postLists = [
+  //   {
+  //     _id: "1",
+  //     category: "category 2",
+  //     title: "Model House in Abuja",
+  //     description: "This is the description of the post",
+  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+  //   },
+  //   {
+  //     _id: "2",
+  //     category: "category 2",
+  //     title: "Palace of the king",
+  //     description: "This is the description of the post",
+  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+  //   },
+  //   {
+  //     _id: "3",
+  //     category: "category 3",
+  //     title: "Trade fair happening now",
+  //     description: "This is the description of the post",
+  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+  //   },
+  //   {
+  //     _id: "4",
+  //     category: "category 4",
+  //     title: "Junble Sale happening in December 2022",
+  //     description: "This is the description of the post",
+  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+  //   },
+  //   {
+  //     _id: "5",
+  //     category: "category 5 5",
+  //     title: "Black Friday happening last Friday in November 2022",
+  //     description: "This is the description of the post",
+  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+  //   },
+  // ];
+
   const appErr = null;
   const serverErr = null;
-  // const appErr = 'this is app err';
-  // const serverErr = 'this is server error';
-  // const isCreated = true;
-  // const isCreated = false;
-  //select categories from store
-  // const category = useSelector(state => state?.category);
-  // const {
-  //   categoryList,
-  //   loading: catLoading,
-  //   appErr: catAppErr,
-  //   serverErr: catServerErr,
-  // } = category;
-  //dispatch
+
   const categoryList = [
     {
-      label: 'label 1',
-      value: 'value 1',
+      label: "Health",
+      value: "value 1",
     },
     {
-      label: 'label 2',
-      value: 'value 2',
+      label: "Entertainment",
+      value: "value 2",
     },
     {
-      label: 'label 3',
-      value: 'value 3',
+      label: "Politics",
+      value: "value 3",
     },
     {
-      label: 'label 4',
-      value: 'value 4',
-    }
-  ]
+      label: "Business",
+      value: "value 4",
+    },
+  ];
   const catLoading = true;
-  const catAppErr = 'cat app err';
-  const catServerErr = 'cat server err';
- 
-  //fetch post
-  useEffect(() => {
-   
-  }, []);
-  //fetch categories
-  useEffect(() => {
-    
-  }, []);
+  const catAppErr = "cat app err";
+  const catServerErr = "cat server err";
 
+  // useEffect(() => {
+  //   const fromStorage = getItem("posts");
+  //   const initialItem = [
+  //     {
+  //       _id: "1",
+  //       category: "category 2",
+  //       title: "Model House in Abuja",
+  //       description: "This is the description of the post",
+  //       image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
+  //     },
+  //   ];
+
+  //   setInitialValue("posts", fromStorage ? fromStorage : initialItem);
+  // }, []);
+
+  
+  // console.log(initialValue);
+  let fromStorage;
+  if(JSON.parse(localStorage.getItem('posts')) !== null){
+    fromStorage = JSON.parse(localStorage.getItem('posts'))
+    // console.log(JSON.parse(localStorage.getItem('posts')))
+  }
+  // console.log(localStorage.getItem('posts'))
   return (
     <>
       <section>
@@ -114,18 +120,7 @@ export default function PostsList() {
                   Latest Post
                 </h2>
               </div>
-              <div className=" block text-right w-1/2">
-                {/* View All */}
-                <button
-                  onClick={() => {
-                      console.log('action');
-                    // dispatch(fetchPostsAction(""))
-                }}
-                  className="inline-block py-2 px-6 rounded-l-xl rounded-t-xl bg-green-600 hover:bg-green-700 text-gray-50 font-bold leading-loose transition duration-200"
-                >
-                  Posts
-                </button>
-              </div>
+              <div className=" block text-right w-1/2"></div>
             </div>
             <div className="flex flex-wrap -mx-3">
               <div className="mb-8 lg:mb-0 w-full lg:w-1/4 px-3">
@@ -145,15 +140,9 @@ export default function PostsList() {
                         No Category Found
                       </h1>
                     ) : (
-                      categoryList?.map(category => (
+                      categoryList?.map((category) => (
                         <li>
-                          <p
-                            onClick={() =>
-                              console.log('action')
-                              // dispatch(fetchPostsAction(category?.title))
-                            }
-                            className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500"
-                          >
+                          <p className="block cursor-pointer py-2 px-3 mb-4 rounded text-yellow-500 font-bold bg-gray-500">
                             {category?.title}
                           </p>
                         </li>
@@ -162,58 +151,54 @@ export default function PostsList() {
                   </ul>
                 </div>
               </div>
-              <div className="w-full lg:w-3/4 px-3">
-                {/* Post goes here */}
+
+
+
+               <div className="w-full lg:w-3/4 px-3">
+                
 
                 {appErr || serverErr ? (
                   <h1 className="text-yellow-600 text-center text-lg ">
                     {serverErr} {appErr}
                   </h1>
-                ) : postLists?.length <= 0 ? (
+                ) : fromStorage?.initialItem?.length <= 0 && JSON.parse(localStorage.getItem('posts')) !== null ? (
                   <h1 className="text-yellow-400 text-lg text-center">
                     No Post Found
                   </h1>
                 ) : (
-                  postLists?.map(post => (
+                  JSON.parse(localStorage.getItem('posts')) !== null &&
+                  fromStorage.initialItem.map((post) => (
                     <div
                       key={post._id}
                       className="flex flex-wrap bg-gray-900 -mx-3  lg:mb-6"
                     >
                       <div className="mb-10  w-full lg:w-1/4 ">
                         <Link>
-                          {/* Post image */}
+                          
                           <img
                             className="w-full h-full object-cover rounded"
-                            // src={post?.image}
-                            // src='https://unsplash.com/photos/MYomVPpR5FU'
-                            src={`./img/poster.png`}
+                            src={post.image[0]}
                             alt=""
                           />
                         </Link>
-                        {/* Likes, views dislikes */}
+                        
                         <div className="flex flex-row bg-gray-300  justify-center w-full  items-center ">
-                          {/* Likes */}
+                         
                           <div className="flex flex-row justify-center items-center ml-4 mr-4 pb-2 pt-1">
-                            {/* Togle like  */}
+                            
                             <div className="">
-                              <ThumbUpIcon
-                                onClick={() =>
-                                  console.log('action')
-                                  // dispatch(toggleAddLikesToPost(post?._id))
-                                }
-                                className="h-7 w-7 text-indigo-600 cursor-pointer"
-                              />
+                              <ThumbUpIcon className="h-7 w-7 text-indigo-600 cursor-pointer" />
                             </div>
                             <div className="pl-2 text-gray-600">
                               {post?.likes?.length}
                             </div>
                           </div>
-                          {/* Dislike */}
+                         
                           <div className="flex flex-row  justify-center items-center ml-4 mr-4 pb-2 pt-1">
                             <div>
                               <ThumbDownIcon
-                                onClick={() =>
-                                  console.log('action')
+                                onClick={
+                                  () => console.log("action")
                                   // dispatch(toggleAddDisLikesToPost(post?._id))
                                 }
                                 className="h-7 w-7 cursor-pointer text-gray-600"
@@ -223,7 +208,7 @@ export default function PostsList() {
                               {post?.disLikes?.length}
                             </div>
                           </div>
-                          {/* Views */}
+                         
                           <div className="flex flex-row justify-center items-center ml-4 mr-4 pb-2 pt-1">
                             <div>
                               <EyeIcon className="h-7 w-7  text-gray-400" />
@@ -237,25 +222,26 @@ export default function PostsList() {
                       <div className="w-full lg:w-3/4 px-3">
                         <Link className="hover:underline">
                           <h3 className="mb-1 text-2xl text-green-400 font-bold font-heading">
-                            {/* {capitalizeWord(post?.title)} */}
+                           
                             {post?.title}
                           </h3>
                         </Link>
                         <p className="text-gray-300">{post?.description}</p>
-                        {/* Read more */}
+                        
                         <Link
                           to={`/posts/${post?._id}`}
                           className="text-indigo-500 hover:underline"
                         >
-                          Read More..
+                          Detail of post...
                         </Link>
-                        {/* User Avatar */}
+                       
                         <div className="mt-6 flex items-center">
                           <div className="flex-shrink-0">
                             <Link>
                               <img
                                 className="h-10 w-10 rounded-full"
                                 src={post?.user?.profilePhoto}
+                                // src={post?.title}
                                 alt=""
                               />
                             </Link>
@@ -277,15 +263,29 @@ export default function PostsList() {
                             </div>
                           </div>
                         </div>
-                        {/* <p class="text-gray-500">
-                             Quisque id sagittis turpis. Nulla sollicitudin rutrum
-                             eros eu dictum...
-                           </p> */}
                       </div>
                     </div>
                   ))
-                )}
+                )} 
               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
