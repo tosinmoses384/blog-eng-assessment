@@ -1,21 +1,10 @@
-import React, { useEffect, useMemo } from "react";
-import {  useParams } from "react-router-dom";
-import { useLookupOverviewContext } from "../../context/LookupOverviewContext";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import DateFormatter from "../../utils/DateFormatter";
 import LoadingComponent from "../../utils/LoadingComponent";
 
 const PostDetails = () => {
-  // const contextExtract = useLookupOverviewContext();
-  // const propsExtract = useMemo(() => {
-  //   const { imgs, setImgs, data, setData } = contextExtract;
-  //   return {
-  //     imgs,
-  //     setImgs,
-  //     data,
-  //     setData,
-  //   };
-  // }, [contextExtract]);
-  // const { imgs, setImgs, data, setData } = propsExtract;
   const { id } = useParams();
 
   const post = {
@@ -32,18 +21,13 @@ const PostDetails = () => {
   const loading = false;
   const appErr = null;
   const serverErr = null;
-  const isDeleted = false;
+  // const isDeleted = false;
 
   useEffect(() => {}, []);
 
   const userAuth = {
     _id: "3igi5grifm959jt",
   };
-
-  const isCreatedBy = postDetails?.user?._id === userAuth?._id;
-  //redirect
-  // if (isDeleted) return <Navigate to="/posts" />;
-  // const fromDtorage = getItem("posts");
 
   let fromStorage;
   let detailObj;
@@ -85,13 +69,6 @@ const PostDetails = () => {
               {/* User */}
               <div className="inline-flex pt-14 mb-14 items-center border-t border-gray-500">
                 <div className="text-left">
-                  {/* <Link to={`/profile/${postDetails?.user?._id}`}>
-                    <h4 className="mb-1 text-2xl font-bold text-gray-50">
-                      <span className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-yellow-200 to-orange-600 ">
-                        {id}
-                      </span>
-                    </h4>
-                  </Link> */}
                   <p className="text-gray-500">
                     {<DateFormatter date={post?.createdAt} />}
                   </p>

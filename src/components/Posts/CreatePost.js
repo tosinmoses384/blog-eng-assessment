@@ -1,11 +1,9 @@
-import React, { useState, useMemo } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Dropzone from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CategoryDropDown from "../Categories/CategoryDropDown";
-import { useLookupOverviewContext } from "../../context/LookupOverviewContext";
 
 //Form schema
 const formSchema = Yup.object({
@@ -31,27 +29,12 @@ border-color:'red'
 `;
 
 export default function CreatePost() {
-  const [file, setFile] = useState(null);
-  const [fileDataURL, setFileDataURL] = useState(null);
-  // const [items, setItems] = useState([]);
   const navigate = useNavigate();
 
-  const contextExtract = useLookupOverviewContext();
-  const propsExtract = useMemo(() => {
-    const { imgs, setImgs } = contextExtract;
-    return {
-      imgs,
-      setImgs,
-    };
-  }, [contextExtract]);
-  const { imgs, setImgs } = propsExtract;
-
-  
   const loading = false;
   const appErr = null;
   const serverErr = null;
-  const isCreated = false;
- 
+
   const formik = useFormik({
     validationSchema: formSchema,
     initialValues: {
@@ -61,8 +44,6 @@ export default function CreatePost() {
       image: "",
     },
     onSubmit: (values) => {
-      
-
       const imageMimeType = /image\/(png|jpg|jpeg)/i;
       const file = values?.image;
       if (!file.type.match(imageMimeType)) {
@@ -79,12 +60,14 @@ export default function CreatePost() {
           if (result && !isCancel) {
             const initialItem = [
               {
-                _id: 'xyz',
+                _id: "xyz",
                 category: "category 2",
                 title: "Model House in Abuja",
                 description: "This is the description of the post",
-                image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-              }
+                image: [
+                  "https://mdbootstrap.com/img/new/standard/city/043.jpg",
+                ],
+              },
             ];
 
             const data = initialItem.push({
@@ -92,31 +75,21 @@ export default function CreatePost() {
               category: values?.category?.label,
               title: values?.title,
               description: values?.description,
-             
+
               image: [result],
             });
             const dataObj = { initialItem, ...data };
 
-            
-            
-            localStorage.setItem('posts', JSON.stringify(dataObj));
+            localStorage.setItem("posts", JSON.stringify(dataObj));
           }
         };
         fileReader.readAsDataURL(file);
       }
 
-
-
       navigate("/posts");
     },
-
-
-
   });
 
-  
-
-  
   return (
     <>
       <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

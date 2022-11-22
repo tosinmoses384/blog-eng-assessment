@@ -1,63 +1,9 @@
-import React, { useMemo, useState } from "react";
 import { ThumbUpIcon, ThumbDownIcon, EyeIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import DateFormatter from "../../utils/DateFormatter";
 import LoadingComponent from "../../utils/LoadingComponent";
-import { useLookupOverviewContext } from "../../context/LookupOverviewContext";
-
 
 export default function PostsList() {
-  
-  // const contextExtract = useLookupOverviewContext();
-  // const propsExtract = useMemo(() => {
-  //   const { imgs, setImgs, data, setData } = contextExtract;
-  //   return {
-  //     imgs,
-  //     setImgs,
-  //     data,
-  //     setData,
-  //   };
-  // }, [contextExtract]);
-  // const { imgs, setImgs, data, setData } = propsExtract;
-
-  // const postLists = [
-  //   {
-  //     _id: "1",
-  //     category: "category 2",
-  //     title: "Model House in Abuja",
-  //     description: "This is the description of the post",
-  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-  //   },
-  //   {
-  //     _id: "2",
-  //     category: "category 2",
-  //     title: "Palace of the king",
-  //     description: "This is the description of the post",
-  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-  //   },
-  //   {
-  //     _id: "3",
-  //     category: "category 3",
-  //     title: "Trade fair happening now",
-  //     description: "This is the description of the post",
-  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-  //   },
-  //   {
-  //     _id: "4",
-  //     category: "category 4",
-  //     title: "Junble Sale happening in December 2022",
-  //     description: "This is the description of the post",
-  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-  //   },
-  //   {
-  //     _id: "5",
-  //     category: "category 5 5",
-  //     title: "Black Friday happening last Friday in November 2022",
-  //     description: "This is the description of the post",
-  //     image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-  //   },
-  // ];
-
   const appErr = null;
   const serverErr = null;
 
@@ -83,29 +29,11 @@ export default function PostsList() {
   const catAppErr = "cat app err";
   const catServerErr = "cat server err";
 
-  // useEffect(() => {
-  //   const fromStorage = getItem("posts");
-  //   const initialItem = [
-  //     {
-  //       _id: "1",
-  //       category: "category 2",
-  //       title: "Model House in Abuja",
-  //       description: "This is the description of the post",
-  //       image: ["https://mdbootstrap.com/img/new/standard/city/043.jpg"],
-  //     },
-  //   ];
-
-  //   setInitialValue("posts", fromStorage ? fromStorage : initialItem);
-  // }, []);
-
-  
-  // console.log(initialValue);
   let fromStorage;
-  if(JSON.parse(localStorage.getItem('posts')) !== null){
-    fromStorage = JSON.parse(localStorage.getItem('posts'))
-    // console.log(JSON.parse(localStorage.getItem('posts')))
+  if (JSON.parse(localStorage.getItem("posts")) !== null) {
+    fromStorage = JSON.parse(localStorage.getItem("posts"));
   }
-  // console.log(localStorage.getItem('posts'))
+
   return (
     <>
       <section>
@@ -152,21 +80,18 @@ export default function PostsList() {
                 </div>
               </div>
 
-
-
-               <div className="w-full lg:w-3/4 px-3">
-                
-
+              <div className="w-full lg:w-3/4 px-3">
                 {appErr || serverErr ? (
                   <h1 className="text-yellow-600 text-center text-lg ">
                     {serverErr} {appErr}
                   </h1>
-                ) : fromStorage?.initialItem?.length <= 0 && JSON.parse(localStorage.getItem('posts')) !== null ? (
+                ) : fromStorage?.initialItem?.length <= 0 &&
+                  JSON.parse(localStorage.getItem("posts")) !== null ? (
                   <h1 className="text-yellow-400 text-lg text-center">
                     No Post Found
                   </h1>
                 ) : (
-                  JSON.parse(localStorage.getItem('posts')) !== null &&
+                  JSON.parse(localStorage.getItem("posts")) !== null &&
                   fromStorage.initialItem.map((post) => (
                     <div
                       key={post._id}
@@ -174,18 +99,15 @@ export default function PostsList() {
                     >
                       <div className="mb-10  w-full lg:w-1/4 ">
                         <Link>
-                          
                           <img
                             className="w-full h-full object-cover rounded"
                             src={post.image[0]}
                             alt=""
                           />
                         </Link>
-                        
+
                         <div className="flex flex-row bg-gray-300  justify-center w-full  items-center ">
-                         
                           <div className="flex flex-row justify-center items-center ml-4 mr-4 pb-2 pt-1">
-                            
                             <div className="">
                               <ThumbUpIcon className="h-7 w-7 text-indigo-600 cursor-pointer" />
                             </div>
@@ -193,7 +115,7 @@ export default function PostsList() {
                               {post?.likes?.length}
                             </div>
                           </div>
-                         
+
                           <div className="flex flex-row  justify-center items-center ml-4 mr-4 pb-2 pt-1">
                             <div>
                               <ThumbDownIcon
@@ -208,7 +130,7 @@ export default function PostsList() {
                               {post?.disLikes?.length}
                             </div>
                           </div>
-                         
+
                           <div className="flex flex-row justify-center items-center ml-4 mr-4 pb-2 pt-1">
                             <div>
                               <EyeIcon className="h-7 w-7  text-gray-400" />
@@ -222,19 +144,18 @@ export default function PostsList() {
                       <div className="w-full lg:w-3/4 px-3">
                         <Link className="hover:underline">
                           <h3 className="mb-1 text-2xl text-green-400 font-bold font-heading">
-                           
                             {post?.title}
                           </h3>
                         </Link>
                         <p className="text-gray-300">{post?.description}</p>
-                        
+
                         <Link
                           to={`/posts/${post?._id}`}
                           className="text-indigo-500 hover:underline"
                         >
                           Detail of post...
                         </Link>
-                       
+
                         <div className="mt-6 flex items-center">
                           <div className="flex-shrink-0">
                             <Link>
@@ -266,26 +187,8 @@ export default function PostsList() {
                       </div>
                     </div>
                   ))
-                )} 
+                )}
               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
           </div>
         </div>
